@@ -26,7 +26,7 @@ import { RolesComponent } from './core/roles/roles.component';
                 
                 path: '', component: AppMainComponent,canActivate: [AuthGuard] ,
                 children: [
-                    {path: '', component: DashboardComponent},
+                    {path: 'home', component: DashboardComponent},
                     {path: 'users', component: UsersComponent},
                     {path: 'menus', component: MenusComponent},
                     {path: 'roles', component: RolesComponent},
