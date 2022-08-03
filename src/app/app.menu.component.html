@@ -8,7 +8,7 @@
                         <span class="layout-profile-role">Design Ops</span>
                     </div>
                 </a>
-                <ul [@inline]="!appMain.isSlim() ? appMain.inlineUserMenuActive ? 'visibleAnimated' : 'hiddenAnimated' : appMain.inlineUserMenuActive ? 'visible' : 'hidden'" class="layout-profile-menu">
+              <!--   <ul [@inline]="!appMain.isSlim() ? appMain.inlineUserMenuActive ? 'visibleAnimated' : 'hiddenAnimated' : appMain.inlineUserMenuActive ? 'visible' : 'hidden'" class="layout-profile-menu">
                     <li>
                         <a href="#" pRipple>
                             <i class="pi pi-fw pi-user"></i><span>Profile</span>
@@ -29,7 +29,7 @@
                             <i class="pi pi-fw pi-bell"></i><span>Notifications</span>
                         </a>
                     </li>
-                </ul>
+                </ul> -->
         </div>
         <ul class="layout-menu">
             <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true"></li>

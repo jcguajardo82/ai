@@ -1,0 +1,113 @@
+<p-toast></p-toast>
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            
+            <p-dropdown [autoDisplayFirst]="false" placeholder="Seleccione un Menu"
+            [(ngModel)]="this.selectedMenuId"
+            (onChange)="onChangeMenu($event)"            
+            [virtualScroll]="true" [virtualScrollItemSize]="30"
+            [options]="menus"  optionLabel="descripcionCorta" optionValue="menuId"></p-dropdown>
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="Editar" icon="pi pi-pencil" class="p-button-warning p-mr-2" (click)="openEdit()"></button>
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2" (click)="openDelete()"></button>
+          <!--   <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" ></button> -->
+        </ng-template>   
+    </p-toolbar>
+
+    <p-table #dt [value]="subMenus" [rows]="10" [paginator]="true" [globalFilterFields]="['descripcion','descripcionCorta']"
+        [(selection)]="selectedMenu" [rowHover]="true" dataKey="menuId"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Aministración de Menus {{selectedMenuName}} </h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th> -->
+                <th pSortableColumn="nombre">Decripción <p-sortIcon field="descripcion"></p-sortIcon></th>
+                <th pSortableColumn="descripcionCorta">Decripción Corta <p-sortIcon field="descripcionCorta"></p-sortIcon></th>
+                <th pSortableColumn="icono">Icono <p-sortIcon field="icono"></p-sortIcon></th>
+                <th pSortableColumn="habilitado">Activo <p-sortIcon field="habilitado"></p-sortIcon></th>
+                <th pSortableColumn="url">Url <p-sortIcon field="url"></p-sortIcon></th>
+                <th><button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-success p-mr-2"  (click)="newSub()"></button></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-menu>
+            <tr>
+               <!--  <td>
+                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                </td> -->
+                <td>{{menu.descripcion}}</td>
+                <td>
+                    {{menu.descripcionCorta}}
+                </td>
+                <td>{{menu.icono}}</td>
+                <td>{{menu.habilitado}}</td>
+                <td>{{menu.url}}</td>
+               
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"  (click)="editSub(menu)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteSub(menu)" ></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{products ? products.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+
+
+    <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Detalle de Menu" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="p-field">
+                <label for="descripcion">Descripción</label>
+                <input type="text" pInputText id="descripcion" [(ngModel)]="menu.descripcion" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !menu.descripcion">La descripción es requerido.</small>
+            </div>
+            <div class="p-field">
+                <label for="descripcionCorta">Descripción Corta</label>
+                <input id="descripcionCorta" pInputText [(ngModel)]="menu.descripcionCorta" required autofocus/>
+                <small class="p-invalid" *ngIf="submitted && !menu.descripcionCorta">La descripción corta es requerido.</small> 
+            </div>
+            <div class="p-field">
+                <label for="url">Url</label>
+                <input id="url" pInputText [(ngModel)]="menu.url" required autofocus/>
+                <small class="p-invalid" *ngIf="submitted && !menu.url">La descripción corta es requerido.</small> 
+            </div>
+            <div class="p-field">
+                <label for="icono">Icono</label>
+                <input id="icono" pInputText [(ngModel)]="menu.icono" />
+            </div>
+            <div class="p-field">
+                <label for="rol">Estatus</label>
+                <p-dropdown [autoDisplayFirst]="false"
+                
+                [(ngModel)]="this.selectedSatus"
+                [virtualScroll]="true" [virtualScrollItemSize]="30"
+                [options]="status"  optionLabel="label" optionValue="val"></p-dropdown>
+            </div>
+            <div class="p-field">
+                <br>
+            </div>
+              
+        </ng-template>
+        
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+        </ng-template>
+    </p-dialog>
+    
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

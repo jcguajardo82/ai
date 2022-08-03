@@ -26,5 +26,9 @@
 		"strictInjectionParameters": false,
 		"strictInputAccessModifiers": false,
 		"strictTemplates": false
+	},
+	"paths": {
+		"@app/*": ["src/app/*"],
+		"@environments/*": ["src/environments/*"]
 	}
 }

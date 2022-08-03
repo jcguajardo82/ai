@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule,ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -114,7 +114,7 @@ import {TreeDemoComponent} from './demo/view/treedemo.component';
 import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
 import {OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
 import {MediaDemoComponent} from './demo/view/mediademo.component';
-import {MenusComponent} from './demo/view/menus/menus.component';
+
 import {MessagesDemoComponent} from './demo/view/messagesdemo.component';
 import {MiscDemoComponent} from './demo/view/miscdemo.component';
 import {EmptyDemoComponent} from './demo/view/emptydemo.component';
@@ -140,6 +140,20 @@ import {IconService} from './demo/service/iconservice';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { DashboardComponent } from './core/main/dashboard/dashboard.component';
+import { LoginComponent } from './core/Login/login/login.component';
+
+import { JwtInterceptor } from '../app/core/_helpers/jwt.interceptor';
+import { ErrorInterceptor } from '../app/core/_helpers/error.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { UsersComponent } from './core/users/users.component';
+
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { MenusComponent } from './core/menus/menus.component';
+import { RolesComponent } from './core/roles/roles.component';
+
 
 FullCalendarModule.registerPlugins([
     dayGridPlugin,
@@ -151,6 +165,7 @@ FullCalendarModule.registerPlugins([
     imports: [
         BrowserModule,
         FormsModule,
+        ReactiveFormsModule ,
         AppRoutingModule,
         AppCodeModule,
         HttpClientModule,
@@ -257,7 +272,7 @@ FullCalendarModule.registerPlugins([
         PanelsDemoComponent,
         OverlaysDemoComponent,
         MediaDemoComponent,
-        MenusComponent,
+ 
         MessagesDemoComponent,
         MessagesDemoComponent,
         MiscDemoComponent,
@@ -276,13 +291,24 @@ FullCalendarModule.registerPlugins([
         BlockViewer,
         BlocksComponent,
         AppHelpComponent,
-        AppInvoiceComponent
+        AppInvoiceComponent,
+        DashboardComponent,
+        LoginComponent,
+        UsersComponent,
+        MenusComponent,
+        RolesComponent
     ],
     providers: [
+        MessageService, ConfirmationService,
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MenuService
-    ],
+        PhotoService, ProductService, MenuService,
+    ]
+    ,
+    
+    
     bootstrap: [AppComponent]
 })
 export class AppModule {
